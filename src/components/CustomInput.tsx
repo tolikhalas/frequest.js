@@ -25,7 +25,6 @@ const CustomInput: React.FC = () => {
   return (
     <div className="flex flex-col items-center justify-center rounded-lg border border-gray-700 p-4">
       <form
-        action=""
         className="flex grid-cols-2 flex-col gap-4 md:grid"
         onSubmit={handleSubmit}
       >
