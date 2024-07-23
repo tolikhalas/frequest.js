@@ -1,6 +1,11 @@
 import { create } from "zustand";
 
-const useStore = create((set) => ({
+type StoreState = {
+  frequency: string;
+  setFrequency: (frequency: string) => void;
+};
+
+const useStore = create<StoreState>((set) => ({
   frequency: "",
   setFrequency: (frequency: string) => set({ frequency }),
 }));

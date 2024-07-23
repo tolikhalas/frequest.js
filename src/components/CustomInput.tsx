@@ -1,17 +1,41 @@
 import React from "react";
 import { RRule } from "rrule";
 import { WEEK_DAY } from "../vite-env.d";
-import useRRule from "../hooks/rrule";
+import useRRule from "@/hooks/rrule";
+import useStore from "@/store/index";
+import { toast } from "react-toastify";
 
 const CustomInput: React.FC = () => {
+  const { setFrequency } = useStore();
   const { schema, setSchema, handleResponse } = useRRule();
 
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const { status, value } = handleResponse();
+    if (status === "successful") {
+      const rule = value as RRule;
+      const frequncy = rule.toText();
+      toast(`✅ Frequency set successfully: ${frequncy}`, {
+        closeOnClick: true,
+        position: "bottom-right",
+        type: "success",
+      });
+      setFrequency(frequncy);
+    } else {
+      const error = value as { message: string };
+      toast(`❌ Something went wrong: ${error.message}`, {
+        closeOnClick: true,
+        position: "bottom-right",
+        type: "error",
+      });
+    }
+  };
   return (
     <div className="flex flex-col items-center justify-center rounded-lg border border-gray-700 p-4">
       <form
         action=""
         className="flex grid-cols-2 flex-col gap-4 md:grid"
-        onSubmit={handleResponse}
+        onSubmit={handleSubmit}
       >
         <section className="flex flex-col gap-y-2">
           <h3>How Frequent</h3>
