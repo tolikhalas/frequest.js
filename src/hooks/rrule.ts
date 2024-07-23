@@ -1,11 +1,6 @@
 import { useState } from "react";
-import { RRuleType, WEEK_DAY } from "../vite-env.d";
+import { RRuleType, UseRuleResponseType, WEEK_DAY } from "../vite-env";
 import { RRule, Weekday, Frequency } from "rrule";
-
-type UseRuleResponseType = {
-  status: "successful" | "failed";
-  value: RRule | unknown;
-};
 
 const useRRule = () => {
   const [schema, setSchema] = useState<RRuleType>({

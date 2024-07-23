@@ -20,3 +20,8 @@ export enum WEEK_DAY {
   SA = RRule.SA,
   SU = RRule.SU,
 }
+
+export type UseRuleResponseType = {
+  status: "successful" | "failed";
+  value: RRule | unknown;
+};

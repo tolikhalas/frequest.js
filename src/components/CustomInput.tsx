@@ -3,31 +3,23 @@ import { RRule } from "rrule";
 import { WEEK_DAY } from "../vite-env.d";
 import useRRule from "@/hooks/rrule";
 import useStore from "@/store/index";
-import { toast } from "react-toastify";
+import useDispay from "@/hooks/display-status";
 
 const CustomInput: React.FC = () => {
   const { setFrequency } = useStore();
   const { schema, setSchema, handleResponse } = useRRule();
+  const { displayStatus } = useDispay();
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { status, value } = handleResponse();
+
+    displayStatus({ status, value });
+
     if (status === "successful") {
       const rule = value as RRule;
       const frequncy = rule.toText();
-      toast(`✅ Frequency set successfully: ${frequncy}`, {
-        closeOnClick: true,
-        position: "bottom-right",
-        type: "success",
-      });
       setFrequency(frequncy);
-    } else {
-      const error = value as { message: string };
-      toast(`❌ Something went wrong: ${error.message}`, {
-        closeOnClick: true,
-        position: "bottom-right",
-        type: "error",
-      });
     }
   };
   return (
