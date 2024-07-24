@@ -20,7 +20,7 @@ const CustomInput: React.FC = () => {
     if (!validatedResult.success) {
       displayStatus({
         status: "failed",
-        value: validatedResult.errors
+        value: validatedResult.errors,
       });
       return;
     }
@@ -76,7 +76,7 @@ const CustomInput: React.FC = () => {
             onChange={(e) =>
               setSchema({
                 ...schema,
-                interval: Math.max(0, parseInt(e.target.value) || 0),
+                interval: parseInt(e.target.value),
               })
             }
           />
@@ -115,7 +115,9 @@ const CustomInput: React.FC = () => {
         </section>
         <section className="grid gap-2">
           <div className="grid gap-y-2">
-            <label htmlFor="start-date">Start Date</label>
+            <label htmlFor="start-date">
+              Start Date <span className="text-gray-400">(optional)</span>
+            </label>
             <input
               type="date"
               name="start-date"
@@ -135,7 +137,9 @@ const CustomInput: React.FC = () => {
             />
           </div>
           <div className="grid gap-y-2">
-            <label htmlFor="end-date">Until</label>
+            <label htmlFor="end-date">
+              Until <span className="text-gray-400">(optional)</span>
+            </label>
             <input
               type="date"
               name="end-date"
