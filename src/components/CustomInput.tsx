@@ -4,6 +4,7 @@ import { WEEK_DAY } from "../vite-env.d";
 import useRRule from "@/hooks/rrule";
 import useStore from "@/store/index";
 import useDispay from "@/hooks/display-status";
+import { validateForm } from "@/rules";
 
 const CustomInput: React.FC = () => {
   const { setFrequency } = useStore();
@@ -13,6 +14,16 @@ const CustomInput: React.FC = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const { status, value } = handleResponse();
+
+    const validatedResult = validateForm(schema);
+
+    if (!validatedResult.success) {
+      displayStatus({
+        status: "failed",
+        value: validatedResult.errors
+      });
+      return;
+    }
 
     displayStatus({ status, value });
 
@@ -63,7 +74,10 @@ const CustomInput: React.FC = () => {
             placeholder="Set interval"
             value={schema.interval}
             onChange={(e) =>
-              setSchema({ ...schema, interval: parseInt(e.target.value) })
+              setSchema({
+                ...schema,
+                interval: Math.max(0, parseInt(e.target.value) || 0),
+              })
             }
           />
         </section>
